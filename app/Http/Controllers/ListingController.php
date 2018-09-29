@@ -19,19 +19,23 @@ class ListingController extends Controller
         $data = $this->get_listing($listing);
         return response()->json($data);
     }
+
     private function add_meta_data($collection, $request)
     {
         return $collection->merge([
-            'path' => $request->getPathInfo(), 'auth' => Auth::check(),
-            'saved' => Auth::check() ? Auth::user()->saved : []  
-            ]);
+            'path' => $request->getPathInfo(),
+            'auth' => Auth::check(),
+            'saved' => Auth::check() ? Auth::user()->saved : []
+        ]);
     }
+
     public function get_listing_web(Listing $listing, Request $request)
     {
         $data = $this->get_listing($listing);
         $data = $this->add_meta_data($data, $request);
         return view('app', ['data' => $data]);
     }
+
     private function get_listing_summaries()
     {
         $collection = Listing::all([

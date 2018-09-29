@@ -1,16 +1,14 @@
 import Vue from 'vue';
 import axios from 'axios';
-import VueRouter from 'vue-router';
 import store from './store/store';
+import VueRouter from 'vue-router';
 
+Vue.use(VueRouter);
 
 import  Home from './components/home/Home.vue';
 import  SavedPage from './components/saved/SavedPage.vue';
 import  ListingPage from './components/ListingPage.vue';
 import LoginPage from './components/login/LoginPage.vue';
-
-
-Vue.use(VueRouter);
 
 
 let router = new VueRouter({
@@ -23,7 +21,7 @@ let router = new VueRouter({
   ],
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0 }
-  }
+}
 });
 
 router.beforeEach((to, from, next) => {
@@ -45,6 +43,7 @@ router.beforeEach((to, from, next) => {
   }
   else {
     store.commit('addData', {route: to.name, data: serverData});
+    serverData.saved.forEach(id => store.commit('TOGGLE_SAVED', id));
     next();
   }
 });
